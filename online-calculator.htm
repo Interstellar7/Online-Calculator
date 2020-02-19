@@ -1,0 +1,114 @@
+<head>
+  <title>Онлайн-калькулятор стоимости технологического присоединения</title>
+</head>
+<body>
+  <br>
+  <h2>Калькулятор стоимости технологического присоединения</h2>
+  <script src="price.js"></script>
+  <script src="calculator.js"></script>
+  <script>
+    function hideAfterStep2() {
+        document.getElementById("lines").style.display = "none";
+        document.getElementById("step3").style.display = "none";
+        document.getElementById("step4").style.display = "none";
+        document.getElementById("buttons").style.display = "none";
+        document.getElementById("resblock").style.display = "none";
+    }
+    function step2show() {
+      document.getElementById("step2").style.display = "block";
+    }
+    function radioCityClick() {
+      document.getElementById("labelLess").innerHTML = " Менее 300 метров (включительно)";
+      document.getElementById("labelMore").innerHTML = " Более 300 метров";
+    }
+    function radioVillageClick() {
+      document.getElementById("labelLess").innerHTML = " Менее 500 метров (включительно)";
+      document.getElementById("labelMore").innerHTML = " Более 500 метров";
+    }
+    function radioDistanceClick() {
+      if ((document.getElementById("id5").checked) && (document.formCalc.inputPower.value<=15)) {
+        hideAfterStep2();
+        document.getElementById("buttons").style.display = "block";
+      }
+      else {
+        hideAfterStep2();
+        document.getElementById("step3").style.display = "block";
+      }
+    }
+    function checkBoxLinesClick() {
+      if (document.getElementById("needBuildLines").checked) {document.getElementById("lines").style.display = "block"}
+        else {document.getElementById("lines").style.display = "none"}
+    }
+    function nextButtonClick() {
+      document.getElementById("step4").style.display = "block";      
+    }
+    function radioTPClick() {
+      document.getElementById("buttons").style.display = "block";     
+    }
+    function startOverClick() {
+      this.formCalc.reset();
+      hideAfterStep2();
+      document.getElementById("step2").style.display = "none";
+    }
+  </script>
+
+  <form name="formCalc">
+    <div id="step1" style="display: block; background-color: #F2F5A9; padding: 15px;"><b>ШАГ 1. ТРЕБУЕМАЯ МОЩНОСТЬ И МЕТОД РАСЧЁТА.</b>
+      <p>Укажите необходимую мощность, кВт: &nbsp;<input type="text" name="inputPower" value="5" size="10"></p>
+      <p>Как будем считать?</p>
+      <p>&nbsp;&nbsp;&nbsp;<input type="radio" name="inputMethod" value="Power" id="id1" onClick="hideAfterStep2(); step2show()">
+      <label for="id1"> Методом ставки платы за технологическое присоединение одного кВт максимальной мощности</label></p>
+      <p>&nbsp;&nbsp;&nbsp;<input type="radio" name="inputMethod" value="Standart" id="id2" onClick="hideAfterStep2(); step2show()">
+      <label for="id2"> Методом стандартизированной тарифной ставки платы за технологическое присоединение</label></p>
+    <br></div>
+
+    <div id="step2" style="display: none; background-color: #D0F5A9; padding: 15px;"><b>ШАГ 2. МЕСТО ПОДКЛЮЧЕНИЯ</b>
+      <p>Где находится точка подключения?</p>
+      <p>&nbsp;&nbsp;&nbsp;<input type="radio" name="inputWhere" value="city" id="id3" checked onClick="radioCityClick()">
+      <label for="id3"> На территории города</label></p>
+      <p>&nbsp;&nbsp;&nbsp;<input type="radio" name="inputWhere" value="village" id="id4" onClick="radioVillageClick()">
+      <label for="id4"> В сельской местности</label></p>
+      <p>Как далеко точка подключения до ближайшей линии электропередачи?</p>
+      <p>&nbsp;&nbsp;&nbsp;<input type="radio" name="inputDistance" value="less" id="id5" onClick="radioDistanceClick()">
+      <label for="id5" id="labelLess"> Менее 300 метров (включительно)</label></p>
+      <p>&nbsp;&nbsp;&nbsp;<input type="radio" name="inputDistance" value="more" id="id6" onClick="radioDistanceClick()">
+      <label for="id6" id="labelMore"> Более 300 метров</label></p>
+    <br></div>
+
+    <div id="step3" style="display: none; background-color: #CEF6F5; padding: 15px;"><b>ШАГ 3. СТРОИТЕЛЬСТВО ЛИНИЙ</b>
+      <p><input type="checkBox" id="needBuildLines" onClick="checkBoxLinesClick()">
+      <label for="needBuildLines">Требуется строительство линий электропередач</label></p>
+      <div id="lines" style="display: none;"><table>
+        <tr><td><b>Линии ВЛ 0.4 кВ (220 или 380 В)</b></td><td> Введите необходимую длину в метрах:</td></tr>
+        <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;Воздушных линий, м: &nbsp;</td><td><input type="text" name="air04" size="10" value="0"></td></tr>
+        <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;Кабельных линий, м: &nbsp;</td><td><input type="text" name="cable04" size="10" value="0"></td></tr>
+        <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;Кабельных линий методом ГНБ, м: &nbsp;</td><td><input type="text" name="cableGNB04" size="10" value="0"></td></tr>
+        <tr><td><b>Линии ВЛ 6–10 кВ</b></td><td> </td></tr>
+        <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;воздушных линий изолированным проводом, м: &nbsp;</td><td><input type="text" name="airIsolated610" size="10" value="0"></td></tr>
+        <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;воздушных линий неизолированным проводом, м: &nbsp;</td><td><input type="text" name="airNotIsolated610" size="10" value="0"></td></tr>
+        <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;Кабельных линий, м: &nbsp;</td><td><input type="text" name="cable610" size="10" value="0"></td></tr>
+        <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;Кабельных линий методом ГНБ, м: &nbsp;</td><td><input type="text" name="cableGNB610" size="10" value="0"></td></tr>
+      </table></div>
+      <input type="button" value="Дальше" onClick="nextButtonClick()">
+    <br><br></div>
+
+    <div id="step4" style="display: none; background-color: #ECE0F8; padding: 15px;"><b>ШАГ 4. СТРОИТЕЛЬСТВО ПОДСТАНЦИЙ</b>
+      <p>Требуется ли строительство трансформаторной подстанции?</p>
+      <p>&nbsp;&nbsp;&nbsp;<input type="radio" name="inputBuildTP" value="1TP" id="id7" onClick="radioTPClick()">
+      <label for="id7"> Нужно построить одно-трансорматорную подстанцию</label></p>
+      <p>&nbsp;&nbsp;&nbsp;<input type="radio" name="inputBuildTP" value="2TP" id="id8" onClick="radioTPClick()">
+      <label for="id8"> Нужно построить двух-трансорматорную подстанцию</label></p>
+      <p>&nbsp;&nbsp;&nbsp;<input type="radio" name="inputBuildTP" value="noTP" id="id9" onClick="radioTPClick()">
+      <label for="id9"> Не нужно мне никаких подстанций!</label></p>      
+    <br></div>
+
+    <div id="buttons" style="display: none;"><br>
+      <input type="button" value="РАССЧИТАТЬ" onClick=calculate(document.formCalc)>&nbsp;&nbsp;&nbsp;
+    </div><br>
+    
+    <div id="resblock" style="display: none; background-color: #F6CECE; padding: 15px;">
+      <h3><b>Стоимость технологического присоединения, руб.: </b>&nbsp;<input type="text" name="result" size="20" style="font-weight: bold; font-size: 16px;" readonly>&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Начать заново" onClick="startOverClick()"></h3>
+    </div>
+  </form>
+  <br>
+</body>
